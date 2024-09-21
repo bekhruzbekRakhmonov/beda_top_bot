@@ -45,7 +45,7 @@ Please note that this is a test account with limited functionality. For full acc
 
 ## Overview
 
-This Real Estate System is a Telegram bot-based application designed to assist real estate agents in managing properties, clients, and documents. It leverages advanced technologies such as vector search capabilities (Qdrant) for efficient property matching and AI-powered text generation (Google's Gemini API) for improving queries and generating property descriptions.
+This Real Estate Assistant is a Telegram bot-based application designed to assist real estate agents in managing properties, clients, and documents. It leverages advanced technologies such as vector search capabilities (Qdrant) for efficient property matching and AI-powered text generation (Google's Gemini API) for improving queries and generating property descriptions.
 
 ## Features
 
@@ -78,8 +78,8 @@ This Real Estate System is a Telegram bot-based application designed to assist r
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/real-estate-system.git
-   cd real-estate-system
+   git clone https://github.com/bekhruzbekRakhmonov/beda_top_bot.git
+   cd beda_top_bot
    ```
 
 2. Install required dependencies:
