@@ -1,5 +1,12 @@
-# Real Estate System
+# Beda Top Real Estate System
 
+![Beda Top Logo](https://example.com/beda-top-logo.png)
+
+**Beda Top: AI-powered real estate assistant streamlining property searches and transactions.**
+
+Beda Top Agent helps real estate agents with user onboarding, document preparation, market analysis, and client analysis, trained on agency data for personalized assistance. [Learn more about Beda Top Agent portal](https://agent-bot-front.vercel.app/)
+
+---
 ## Table of Contents
 1. [Overview](#overview)
 2. [Features](#features)
