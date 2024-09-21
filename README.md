@@ -87,6 +87,13 @@ The system follows a modular architecture with the TelegramBot at its core, inte
 
 ```mermaid
 classDiagram
+    class TelegramBot {
+        +start()
+        +handle_message()
+        +handle_referral()
+        +button_callback()
+    }
+
     class Database {
         +create_database()
         +setup_user_db()
@@ -102,13 +109,6 @@ classDiagram
         +encode()
     }
 
-    class TelegramBot {
-        +start()
-        +handle_message()
-        +handle_referral()
-        +button_callback()
-    }
-
     class UserManagement {
         +get_user_credits()
         +update_user_credits()
@@ -118,11 +118,17 @@ classDiagram
     class PropertyManagement {
         +add_property()
         +get_property()
+        +update_property()
+        +delete_property()
+        +search_properties()
     }
 
     class ClientManagement {
         +add_client()
         +get_client()
+        +update_client()
+        +delete_client()
+        +search_clients()
     }
 
     class DocumentManagement {
@@ -130,12 +136,62 @@ classDiagram
         +get_document()
         +update_document_status()
         +generate_document()
+        +list_documents()
     }
 
     class GeminiAI {
         +improve_query()
         +generate_property_description()
         +is_real_estate_query()
+        +generate_market_analysis()
+    }
+
+    class Agent {
+        +id
+        +name
+        +email
+        +password
+        +agency_id
+        +last_activity
+        +login()
+        +logout()
+        +update_profile()
+    }
+
+    class Property {
+        +id
+        +address
+        +price
+        +bedrooms
+        +bathrooms
+        +square_feet
+        +description
+        +agent_id
+    }
+
+    class Client {
+        +id
+        +name
+        +email
+        +phone
+        +agent_id
+    }
+
+    class Chatbot {
+        +process_message()
+        +generate_response()
+        +handle_intent()
+    }
+
+    class IntentClassifier {
+        +classify_intent()
+        +train_model()
+    }
+
+    class MarketAnalysis {
+        +generate_report()
+        +analyze_trends()
+        +compare_properties()
     }
 
     TelegramBot --> UserManagement
@@ -144,9 +200,19 @@ classDiagram
     TelegramBot --> DocumentManagement
     TelegramBot --> QdrantClient
     TelegramBot --> GeminiAI
+    TelegramBot --> Chatbot
     QdrantClient --> SentenceTransformer
     PropertyManagement --> Database
     ClientManagement --> Database
     DocumentManagement --> Database
     UserManagement --> Database
+    Agent --> PropertyManagement
+    Agent --> ClientManagement
+    Agent --> DocumentManagement
+    Property --> PropertyManagement
+    Client --> ClientManagement
+    Chatbot --> IntentClassifier
+    Chatbot --> GeminiAI
+    MarketAnalysis --> PropertyManagement
+    MarketAnalysis --> GeminiAI
 ```
