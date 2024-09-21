@@ -12,10 +12,10 @@ Beda Top Agent helps real estate agents with user onboarding, document preparati
 
 Here's a glimpse of the Beda Top system in action:
 
-![Beda Top Dashboard](https://agent-bot-front.vercel.app/product1.png)
+![Beda Top Dashboard](https://agent-bot-front.vercel.app/product2.png)
 *Beda Top Agent Dashboard - Manage properties, clients, and tasks at a glance*
 
-![Beda Top Chatbot](https://agent-bot-front.vercel.app/product2.png)
+![Beda Top Chatbot](https://agent-bot-front.vercel.app/product1.png)
 *Beda Top AI Chatbot - Get instant assistance and property recommendations*
 
 ---
