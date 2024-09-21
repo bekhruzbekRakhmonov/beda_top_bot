@@ -1,102 +1,89 @@
-# Real Estate System Technical Documentation
+# Real Estate System
 
 ## Table of Contents
-1. [System Overview](#system-overview)
-2. [Components](#components)
-   - [Database](#database)
-   - [QdrantClient](#qdrantclient)
-   - [SentenceTransformer](#sentencetransformer)
-   - [TelegramBot](#telegrambot)
-   - [UserManagement](#usermanagement)
-   - [PropertyManagement](#propertymanagement)
-   - [ClientManagement](#clientmanagement)
-   - [DocumentManagement](#documentmanagement)
-   - [GeminiAI](#geminiai)
-3. [System Architecture](#system-architecture)
-4. [Setup and Installation](#setup-and-installation)
-5. [Usage](#usage)
-6. [UML Diagram](#uml-diagram)
+1. [Overview](#overview)
+2. [Features](#features)
+3. [System Components](#system-components)
+4. [Requirements](#requirements)
+5. [Installation](#installation)
+6. [Configuration](#configuration)
+7. [Usage](#usage)
+8. [System Architecture](#system-architecture)
+9. [Development](#development)
+10. [License](#license)
 
-## System Overview
+## Overview
 
-This real estate system is a Telegram bot-based application that helps real estate agents manage properties, clients, and documents. It uses vector search capabilities (Qdrant) for property matching and AI-powered text generation (Google's Gemini API) for improving queries and generating property descriptions.
+This Real Estate System is a Telegram bot-based application designed to assist real estate agents in managing properties, clients, and documents. It leverages advanced technologies such as vector search capabilities (Qdrant) for efficient property matching and AI-powered text generation (Google's Gemini API) for improving queries and generating property descriptions.
 
-## Components
+## Features
 
-### Database
-- Handles creation and setup of SQLite databases for storing user, agent, property, client, and document information.
-- Key functions: `create_database()`, `setup_user_db()`, `setup_databases()`
+- Property management and search
+- Client information management
+- Document preparation and management
+- AI-powered query improvement and property description generation
+- User credit system with referral bonuses
+- Vector-based property search for efficient matching
 
-### QdrantClient
-- Manages the vector database for efficient property searching.
-- Key functions: `setup_qdrant()`, `retrieve_relevant_properties()`
+## System Components
 
-### SentenceTransformer
-- Converts text descriptions into vector representations for use with Qdrant.
-- Key function: `encode()`
+1. **Database**: SQLite databases for storing user, agent, property, client, and document information.
+2. **QdrantClient**: Vector database for efficient property searching.
+3. **SentenceTransformer**: Converts text descriptions into vector representations.
+4. **TelegramBot**: Main interface for user interactions via Telegram.
+5. **UserManagement**: Manages user credits and referral system.
+6. **PropertyManagement**: Handles adding and retrieving property information.
+7. **ClientManagement**: Manages client information.
+8. **DocumentManagement**: Handles creation, retrieval, and management of property-related documents.
+9. **GeminiAI**: Utilizes Google's Gemini API for natural language processing tasks.
 
-### TelegramBot
-- Main interface for user interactions via Telegram.
-- Handles commands, messages, and button callbacks.
-- Key functions: `start()`, `handle_message()`, `handle_referral()`, `button_callback()`
+## Requirements
 
-### UserManagement
-- Manages user credits and referral system.
-- Key functions: `get_user_credits()`, `update_user_credits()`, `add_referral()`
+- Python 3.7+
+- Telegram Bot API Token
+- Google API Key (for Gemini AI)
 
-### PropertyManagement
-- Handles adding and retrieving property information.
-- Key functions: `add_property()`, `get_property()`
+## Installation
 
-### ClientManagement
-- Manages client information.
-- Key functions: `add_client()`, `get_client()`
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/real-estate-system.git
+   cd real-estate-system
+   ```
 
-### DocumentManagement
-- Handles creation, retrieval, and management of documents related to property transactions.
-- Key functions: `create_document()`, `get_document()`, `update_document_status()`, `generate_document()`
+2. Install required dependencies:
+   ```
+   pip install python-telegram-bot python-dotenv sentence-transformers qdrant-client google-generativeai sqlite3 python-docx docx2pdf PyPDF2
+   ```
 
-### GeminiAI
-- Utilizes Google's Gemini API for natural language processing tasks.
-- Key functions: `improve_query()`, `generate_property_description()`, `is_real_estate_query()`
+## Configuration
+
+1. Create a `.env` file in the project root directory.
+2. Add the following environment variables:
+   ```
+   TELEGRAM_BOT_TOKEN=your_telegram_bot_token
+   GOOGLE_API_KEY=your_google_api_key
+   ```
+
+## Usage
+
+1. Start the bot:
+   ```
+   python main.py
+   ```
+
+2. In Telegram, start a conversation with your bot by sending the `/start` command.
+3. Use the provided buttons to:
+   - Add properties
+   - Manage clients
+   - Prepare documents
+4. Use natural language queries to search for properties or get assistance.
 
 ## System Architecture
 
 The system follows a modular architecture with the TelegramBot at its core, integrating various components for specific functionalities. The bot interacts with users, manages data through the Database component, uses QdrantClient for vector search, and leverages GeminiAI for text processing and generation.
 
-## Setup and Installation
-
-1. Clone the repository
-2. Install required dependencies:
-   ```
-   pip install python-telegram-bot python-dotenv sentence-transformers qdrant-client google-generativeai sqlite3 python-docx docx2pdf PyPDF2
-   ```
-3. Set up environment variables in a `.env` file:
-   ```
-   TELEGRAM_BOT_TOKEN=your_telegram_bot_token
-   GOOGLE_API_KEY=your_google_api_key
-   ```
-4. Run the main script:
-   ```
-   python main.py
-   ```
-
-## Usage
-
-1. Start the bot by sending `/start` command in Telegram.
-2. Use the provided buttons to add properties, clients, or prepare documents.
-3. Follow the prompts to input required information.
-4. Use natural language queries to search for properties or get assistance.
-
-## UML Diagram
-
-The UML class diagram for this system is created using Mermaid. To save and view the diagram:
-
-1. Save the Mermaid code in a file with `.mmd` extension (e.g., `real_estate_uml.mmd`).
-2. Use a Mermaid-compatible viewer or online editor (like [Mermaid Live Editor](https://mermaid.live/)) to render the diagram.
-3. For embedding in documentation, you can use Mermaid-supported Markdown renderers or convert the diagram to an image file.
-
-Example Mermaid code file content:
+### UML Diagram
 
 ```mermaid
 classDiagram
@@ -163,5 +150,3 @@ classDiagram
     DocumentManagement --> Database
     UserManagement --> Database
 ```
-
-This UML diagram provides a visual representation of the system's components and their relationships. You can use this Mermaid code to generate the diagram in Mermaid-compatible tools or viewers.
