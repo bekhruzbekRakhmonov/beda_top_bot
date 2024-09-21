@@ -150,8 +150,6 @@ def token_required(f):
     return decorated
 
 # Chatbot helper functions
-
-
 def generate_response(message, context, agent):
     intent = get_intent(message)
     model = genai.GenerativeModel('gemini-pro')
@@ -166,7 +164,8 @@ def generate_response(message, context, agent):
         agent_id=agent.id).order_by(Message.timestamp.desc()).limit(10).all()
     recent_messages.reverse()  # Oldest first
 
-    chat_history = [{"role": m.sender, "parts": [m.content]}
+    # Map 'agent' to 'user' and 'assistant' to 'model'
+    chat_history = [{"role": "user" if m.sender == "agent" else "model", "parts": [m.content]}
                     for m in recent_messages]
     chat = model.start_chat(history=chat_history)
 
@@ -206,8 +205,6 @@ def generate_response(message, context, agent):
     return response.text, actions
 
 # API Routes
-
-
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.json
