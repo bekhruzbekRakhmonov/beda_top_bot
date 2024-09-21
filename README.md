@@ -1,6 +1,6 @@
 # Beda Top Real Estate System
 
-![Beda Top Logo](https://example.com/beda-top-logo.png)
+![Beda Top Logo](https://agent-bot-front.vercel.app/logo.svg)
 
 **Beda Top: AI-powered real estate assistant streamlining property searches and transactions.**
 
