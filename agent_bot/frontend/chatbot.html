@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beda Top Agent Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .chat-container {
+            height: calc(100vh - 12rem);
+        }
+        .message {
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        .user-message {
+            background-color: #4A90E2;
+            color: white;
+            border-radius: 1rem 1rem 0 1rem;
+        }
+        .bot-message {
+            background-color: #E5E7EB;
+            color: #1F2937;
+            border-radius: 1rem 1rem 1rem 0;
+        }
+        .typing-indicator::after {
+            content: '...';
+            animation: typing 1s steps(5, end) infinite;
+        }
+        @keyframes typing {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+        .message-content {
+            overflow-wrap: break-word;
+        }
+        .message-content p {
+            margin-bottom: 0.5rem;
+        }
+        .message-content ul, .message-content ol {
+            margin-left: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .message-content pre {
+            white-space: pre-wrap;
+            background-color: rgba(0, 0, 0, 0.05);
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+        .message-content code {
+            font-family: monospace;
+            background-color: rgba(0, 0, 0, 0.05);
+            padding: 0.1rem 0.2rem;
+            border-radius: 0.2rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" class="w-12 h-12 mr-4">
+                    <path d="M30 100 L100 30 L170 100 L150 100 L150 170 H50 V100 L30 100 Z" fill="#4A90E2"/>
+                    <path d="M70 90 Q100 80 130 90 L140 90 Q150 90 150 100 L150 130 Q150 140 140 140 L130 140 L115 155 L100 140 L60 140 Q50 140 50 130 L50 100 Q50 90 60 90 Z" fill="#FFD700"/>
+                    <circle cx="85" cy="110" r="8" fill="#FFFFFF"/>
+                    <circle cx="115" cy="110" r="8" fill="#FFFFFF"/>
+                    <path d="M85 130 Q100 140 115 130" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+                </svg>
+                <h1 class="text-2xl font-bold text-gray-800">Beda Top Agent Assistant</h1>
+            </div>
+            <div id="agentInfo" class="hidden">
+                <span id="agentName" class="font-semibold mr-4"></span>
+                <button id="logoutButton" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Logout</button>
+            </div>
+        </div>
+        
+        <div id="loginForm" class="bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto">
+            <h2 class="text-2xl font-bold mb-6 text-center">Agent Login</h2>
+            <input type="email" id="email" placeholder="Email" class="w-full border p-2 mb-4 rounded">
+            <input type="password" id="password" placeholder="Password" class="w-full border p-2 mb-6 rounded">
+            <button id="loginButton" class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Login</button>
+        </div>
+
+        <div id="chatInterface" class="bg-white rounded-lg shadow-lg p-4 hidden">
+            <div id="chatContainer" class="chat-container overflow-y-auto mb-6"></div>
+            <div id="typingIndicator" class="text-gray-500 mb-2 hidden">
+                <span class="typing-indicator">Assistant is typing</span>
+            </div>
+            <div class="flex items-center">
+                <input type="text" id="userInput" placeholder="Type your message here..." class="flex-grow border p-2 rounded-l focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button id="sendMessage" class="bg-blue-500 text-white px-4 py-2 rounded-r hover:bg-blue-600 transition">Send</button>
+            </div>
+            <div class="mt-4 flex flex-wrap gap-2">
+                <button class="quick-action bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 transition">Prepare document</button>
+                <button class="quick-action bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 transition">Client onboarding</button>
+                <button class="quick-action bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 transition">Property search</button>
+                <button class="quick-action bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 transition">Market analysis</button>
+                <button class="quick-action bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 transition">Client info</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    const API_URL = 'http://localhost:5000/api';
+    const loginForm = document.getElementById('loginForm');
+    const chatInterface = document.getElementById('chatInterface');
+    const agentInfo = document.getElementById('agentInfo');
+    const agentName = document.getElementById('agentName');
+    const loginButton = document.getElementById('loginButton');
+    const logoutButton = document.getElementById('logoutButton');
+    const chatContainer = document.getElementById('chatContainer');
+    const userInput = document.getElementById('userInput');
+    const sendButton = document.getElementById('sendMessage');
+    const typingIndicator = document.getElementById('typingIndicator');
+
+    let token = localStorage.getItem('token');
+    let conversationContext = {};
+
+    function showChatInterface(name) {
+        loginForm.classList.add('hidden');
+        chatInterface.classList.remove('hidden');
+        agentInfo.classList.remove('hidden');
+        agentName.textContent = `Agent: ${name}`;
+    }
+
+    function showLoginForm() {
+        loginForm.classList.remove('hidden');
+        chatInterface.classList.add('hidden');
+        agentInfo.classList.add('hidden');
+    }
+
+    async function login() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            const response = await fetch(`${API_URL}/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                token = data.token;
+                localStorage.setItem('token', token);
+                showChatInterface(data.agent_name);
+            } else {
+                alert(data.message || 'Login failed');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            alert('An error occurred during login');
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem('token');
+        token = null;
+        conversationContext = {};
+        chatContainer.innerHTML = '';
+        showLoginForm();
+    }
+
+    function addMessage(sender, content) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender === 'You' ? 'user-message ml-auto' : 'bot-message'} p-3 rounded-lg mb-2`;
+        
+        const senderSpan = document.createElement('span');
+        senderSpan.className = 'font-bold';
+        senderSpan.textContent = `${sender}:`;
+        
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'message-content mt-1';
+        contentDiv.innerHTML = marked.parse(content);
+        
+        messageDiv.appendChild(senderSpan);
+        messageDiv.appendChild(contentDiv);
+        
+        chatContainer.appendChild(messageDiv);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const message = userInput.value.trim();
+        if (message) {
+            addMessage('You', message);
+            userInput.value = '';
+            typingIndicator.classList.remove('hidden');
+
+            try {
+                const response = await fetch(`${API_URL}/chatbot`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': token
+                    },
+                    body: JSON.stringify({ message, context: conversationContext })
+                });
+                const data = await response.json();
+                typingIndicator.classList.add('hidden');
+                addMessage('Assistant', data.response);
+                conversationContext = data.context;
+
+                // Handle any actions or suggestions
+                if (data.actions) {
+                    handleActions(data.actions);
+                }
+            } catch (error) {
+                console.error('Error sending message:', error);
+                typingIndicator.classList.add('hidden');
+                addMessage('Assistant', 'Sorry, I encountered an error. Please try again.');
+            }
+        }
+    }
+
+    async function sendMessage() {
+        const message = userInput.value.trim();
+        if (message) {
+            addMessage('You', message);
+            userInput.value = '';
+            typingIndicator.classList.remove('hidden');
+
+            try {
+                const response = await fetch(`${API_URL}/chatbot`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': token
+                    },
+                    body: JSON.stringify({ message, context: conversationContext })
+                });
+                const data = await response.json();
+                typingIndicator.classList.add('hidden');
+                addMessage('Assistant', data.response);
+                conversationContext = data.context;
+
+                // Handle any actions or suggestions
+                if (data.actions) {
+                    handleActions(data.actions);
+                }
+            } catch (error) {
+                console.error('Error sending message:', error);
+                typingIndicator.classList.add('hidden');
+                addMessage('Assistant', 'Sorry, I encountered an error. Please try again.');
+            }
+        }
+    }
+
+    function handleActions(actions) {
+        // Implement action handling logic here
+        console.log('Actions to handle:', actions);
+    }
+
+    loginButton.addEventListener('click', login);
+    logoutButton.addEventListener('click', logout);
+    sendButton.addEventListener('click', sendMessage);
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+
+    document.querySelectorAll('.quick-action').forEach(button => {
+        button.addEventListener('click', () => {
+            userInput.value = button.textContent;
+            sendMessage();
+        });
+    });
+
+    // Check if user is already logged in
+    if (token) {
+        fetch(`${API_URL}/agents/me`, {
+            headers: { 'Authorization': token }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.name) {
+                showChatInterface(data.name);
+            } else {
+                showLoginForm();
+            }
+        })
+        .catch(error => {
+            console.error('Error verifying token:', error);
+            showLoginForm();
+        });
+    } else {
+        showLoginForm();
+    }
+    </script>
+</body>
+</html>

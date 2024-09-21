@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Beda Top Agent Panel</title>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+			rel="stylesheet"
+		/>
+		<style>
+			body {
+				font-family: "Poppins", sans-serif;
+			}
+			@keyframes fadeIn {
+				from {
+					opacity: 0;
+					transform: translateY(20px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+			.animate-fadeIn {
+				animation: fadeIn 0.8s ease-out forwards;
+			}
+			.bg-gradient {
+				background: linear-gradient(135deg, #4a90e2 0%, #1e3a8a 100%);
+			}
+			.shape {
+				position: absolute;
+				opacity: 0.1;
+			}
+			.hidden {
+				display: none;
+			}
+		</style>
+	</head>
+	<body class="bg-gradient min-h-screen flex flex-col overflow-hidden">
+		<div
+			class="shape w-64 h-64 bg-blue-300 rounded-full top-[-100px] left-[-100px]"
+		></div>
+		<div
+			class="shape w-96 h-96 bg-blue-500 rounded-full bottom-[-150px] right-[-150px]"
+		></div>
+
+		<nav
+			class="w-full p-4 flex justify-between items-center animate-fadeIn"
+			style="animation-delay: 0.2s"
+		>
+			<div class="flex items-center">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 200 200"
+					class="w-16 h-16 mr-4"
+				>
+					<path
+						d="M30 100 L100 30 L170 100 L150 100 L150 170 H50 V100 L30 100 Z"
+						fill="#ffffff"
+					/>
+					<path
+						d="M70 90 Q100 80 130 90 L140 90 Q150 90 150 100 L150 130 Q150 140 140 140 L130 140 L115 155 L100 140 L60 140 Q50 140 50 130 L50 100 Q50 90 60 90 Z"
+						fill="#FFD700"
+					/>
+					<circle cx="85" cy="110" r="8" fill="#4A90E2" />
+					<circle cx="115" cy="110" r="8" fill="#4A90E2" />
+					<path
+						d="M85 130 Q100 140 115 130"
+						fill="none"
+						stroke="#4A90E2"
+						stroke-width="4"
+						stroke-linecap="round"
+					/>
+				</svg>
+				<h2 class="text-3xl font-bold text-white">
+					Beda Top Agent Panel
+				</h2>
+			</div>
+			<div id="userInfo" class="hidden">
+				<span id="agentName" class="text-white mr-4"></span>
+				<button
+					onclick="logout()"
+					class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+				>
+					Logout
+				</button>
+			</div>
+		</nav>
+
+		<div id="loginForm" class="container mx-auto mt-8 p-4">
+			<div
+				class="bg-white rounded-lg shadow-lg p-6 max-w-md mx-auto animate-fadeIn"
+				style="animation-delay: 0.4s"
+			>
+				<h2 class="text-2xl font-semibold mb-4">Login</h2>
+				<input
+					type="email"
+					id="loginEmail"
+					placeholder="Email"
+					class="w-full border p-2 mb-4 rounded"
+				/>
+				<input
+					type="password"
+					id="loginPassword"
+					placeholder="Password"
+					class="w-full border p-2 mb-4 rounded"
+				/>
+				<button
+					onclick="login()"
+					class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+				>
+					Login
+				</button>
+			</div>
+		</div>
+
+		<div id="mainContent" class="container mx-auto mt-8 p-4 hidden">
+			<div
+				class="bg-white rounded-lg shadow-lg p-6 animate-fadeIn"
+				style="animation-delay: 0.4s"
+			>
+				<div class="flex mb-6">
+					<button
+						class="flex-1 py-2 px-4 text-center text-blue-600 font-semibold hover:bg-blue-100 transition duration-300 rounded-l-lg"
+						onclick="showSection('dashboard')"
+					>
+						Dashboard
+					</button>
+					<button
+						class="flex-1 py-2 px-4 text-center text-blue-600 font-semibold hover:bg-blue-100 transition duration-300"
+						onclick="showSection('properties')"
+					>
+						Properties
+					</button>
+					<button
+						class="flex-1 py-2 px-4 text-center text-blue-600 font-semibold hover:bg-blue-100 transition duration-300 rounded-r-lg"
+						onclick="showSection('clients')"
+					>
+						Clients
+					</button>
+					<button
+						class="flex-1 py-2 px-4 text-center text-blue-600 font-semibold hover:bg-blue-100 transition duration-300 rounded-r-lg"
+						onclick="showSection('chatbot')"
+					>
+						Chatbot
+					</button>
+				</div>
+
+				<div
+					id="dashboard"
+					class="animate-fadeIn"
+					style="animation-delay: 0.6s"
+				>
+					<h2 class="text-2xl font-semibold mb-4">Dashboard</h2>
+					<p>
+						Welcome to your Beda Top agent panel. Use the navigation
+						above to manage your real estate data.
+					</p>
+				</div>
+
+				<div
+					id="properties"
+					class="hidden animate-fadeIn"
+					style="animation-delay: 0.6s"
+				>
+					<h2 class="text-2xl font-semibold mb-4">Properties</h2>
+					<button
+						class="bg-blue-500 text-white px-4 py-2 rounded mb-4"
+						onclick="showPropertyForm()"
+					>
+						Add Property
+					</button>
+					<div id="propertyForm" class="hidden mb-4">
+						<input
+							type="text"
+							id="propertyAddress"
+							placeholder="Address"
+							class="border p-2 mr-2 mb-2"
+						/>
+						<input
+							type="number"
+							id="propertyPrice"
+							placeholder="Price"
+							class="border p-2 mr-2 mb-2"
+						/>
+						<input
+							type="number"
+							id="propertyBedrooms"
+							placeholder="Bedrooms"
+							class="border p-2 mr-2 mb-2"
+						/>
+						<input
+							type="number"
+							id="propertyBathrooms"
+							placeholder="Bathrooms"
+							class="border p-2 mr-2 mb-2"
+						/>
+						<input
+							type="number"
+							id="propertySquareFeet"
+							placeholder="Square Feet"
+							class="border p-2 mr-2 mb-2"
+						/>
+						<textarea
+							id="propertyDescription"
+							placeholder="Description"
+							class="border p-2 mr-2 mb-2 w-full"
+						></textarea>
+						<button
+							class="bg-green-500 text-white px-4 py-2 rounded"
+							onclick="addProperty()"
+						>
+							Save
+						</button>
+					</div>
+					<ul id="propertiesList" class="list-disc pl-5"></ul>
+				</div>
+
+				<div
+					id="clients"
+					class="hidden animate-fadeIn"
+					style="animation-delay: 0.6s"
+				>
+					<h2 class="text-2xl font-semibold mb-4">Clients</h2>
+					<button
+						class="bg-blue-500 text-white px-4 py-2 rounded mb-4"
+						onclick="showClientForm()"
+					>
+						Add Client
+					</button>
+					<div id="clientForm" class="hidden mb-4">
+						<input
+							type="text"
+							id="clientName"
+							placeholder="Client Name"
+							class="border p-2 mr-2 mb-2"
+						/>
+						<input
+							type="email"
+							id="clientEmail"
+							placeholder="Email"
+							class="border p-2 mr-2 mb-2"
+						/>
+						<input
+							type="tel"
+							id="clientPhone"
+							placeholder="Phone"
+							class="border p-2 mr-2 mb-2"
+						/>
+						<button
+							class="bg-green-500 text-white px-4 py-2 rounded"
+							onclick="addClient()"
+						>
+							Save
+						</button>
+					</div>
+					<ul id="clientsList" class="list-disc pl-5"></ul>
+				</div>
+
+				<div
+					id="chatbot"
+					class="hidden animate-fadeIn"
+					style="animation-delay: 0.6s"
+				>
+					<h2 class="text-2xl font-semibold mb-4">Chatbot</h2>
+					<div
+						id="chatMessages"
+						class="bg-gray-100 p-4 h-96 overflow-y-auto mb-4 rounded"
+					></div>
+					<div class="flex">
+						<input
+							type="text"
+							id="chatInput"
+							placeholder="Type your message here..."
+							class="flex-grow border p-2 rounded-l"
+						/>
+						<button
+							onclick="sendChatMessage()"
+							class="bg-blue-500 text-white px-4 py-2 rounded-r"
+						>
+							Send
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			const API_URL = "http://localhost:5000/api";
+			let token = localStorage.getItem("token");
+			let conversationContext = {};
+
+			function showLoginForm() {
+				document.getElementById("loginForm").classList.remove("hidden");
+				document.getElementById("mainContent").classList.add("hidden");
+				document.getElementById("userInfo").classList.add("hidden");
+			}
+
+			async function login() {
+				const email = document.getElementById("loginEmail").value;
+				const password = document.getElementById("loginPassword").value;
+				try {
+					const response = await fetch(`${API_URL}/login`, {
+						method: "POST",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({ email, password }),
+					});
+					const data = await response.json();
+					if (response.ok) {
+						token = data.token;
+						localStorage.setItem("token", token);
+						document.getElementById("agentName").textContent =
+							data.agent_name;
+						showMainContent();
+						showSection("dashboard");
+					} else {
+						alert(data.message || "Login failed");
+					}
+				} catch (error) {
+					console.error("Login error:", error);
+					alert("An error occurred during login");
+				}
+			}
+
+			function logout() {
+				localStorage.removeItem("token");
+				token = null;
+				showLoginForm();
+			}
+
+			function showPropertyForm() {
+				document
+					.getElementById("propertyForm")
+					.classList.toggle("hidden");
+			}
+
+			function showClientForm() {
+				document
+					.getElementById("clientForm")
+					.classList.toggle("hidden");
+			}
+
+			function formatDateTime(isoString) {
+				const date = new Date(isoString);
+				return date.toLocaleString();
+			}
+
+			async function fetchData(type) {
+				try {
+					const response = await fetch(`${API_URL}/${type}`, {
+						headers: { Authorization: token },
+					});
+					const data = await response.json();
+					if (response.ok && data !== null) {
+						updateList(type, data);
+					} else {
+						console.error("Unexpected data structure:", data);
+					}
+				} catch (error) {
+					console.error("Error fetching data:", error);
+				}
+			}
+
+			function updateList(type, items) {
+				const list = document.getElementById(`${type}List`);
+				list.innerHTML = "";
+				items.forEach((item) => {
+					const li = document.createElement("li");
+					li.className = "mb-4 p-4 bg-gray-100 rounded-lg";
+					if (type === "properties") {
+						li.innerHTML = `
+                    <strong class="text-lg">${item.address}</strong><br>
+                    Price: $${item.price.toLocaleString()}<br>
+                    Bedrooms: ${item.bedrooms} | Bathrooms: ${
+							item.bathrooms
+						}<br>
+                    Square Feet: ${item.square_feet}<br>
+                    Description: ${item.description}
+                `;
+					} else if (type === "clients") {
+						li.innerHTML = `
+                    <strong class="text-lg">${item.name}</strong><br>
+                    Email: ${item.email}<br>
+                    Phone: ${item.phone}
+                `;
+					}
+					list.appendChild(li);
+				});
+			}
+
+			async function addProperty() {
+				const property = {
+					address: document.getElementById("propertyAddress").value,
+					price: parseFloat(
+						document.getElementById("propertyPrice").value
+					),
+					bedrooms: parseInt(
+						document.getElementById("propertyBedrooms").value
+					),
+					bathrooms: parseInt(
+						document.getElementById("propertyBathrooms").value
+					),
+					square_feet: parseFloat(
+						document.getElementById("propertySquareFeet").value
+					),
+					description: document.getElementById("propertyDescription")
+						.value,
+				};
+				try {
+					await fetch(`${API_URL}/properties`, {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: token,
+						},
+						body: JSON.stringify(property),
+					});
+					fetchData("properties");
+					showPropertyForm();
+				} catch (error) {
+					console.error("Error adding property:", error);
+				}
+			}
+
+			async function addClient() {
+				const client = {
+					name: document.getElementById("clientName").value,
+					email: document.getElementById("clientEmail").value,
+					phone: document.getElementById("clientPhone").value,
+				};
+				try {
+					await fetch(`${API_URL}/clients`, {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: token,
+						},
+						body: JSON.stringify(client),
+					});
+					fetchData("clients");
+					showClientForm();
+				} catch (error) {
+					console.error("Error adding client:", error);
+				}
+			}
+
+			function addChatMessage(sender, content) {
+				const chatMessages = document.getElementById("chatMessages");
+				const messageElement = document.createElement("div");
+				messageElement.className = "mb-2";
+				messageElement.innerHTML = `<strong>${sender}:</strong> ${content}`;
+				chatMessages.appendChild(messageElement);
+				chatMessages.scrollTop = chatMessages.scrollHeight;
+			}
+
+			async function sendChatMessage() {
+				const chatInput = document.getElementById("chatInput");
+				const message = chatInput.value.trim();
+				if (message) {
+					addChatMessage("You", message);
+					chatInput.value = "";
+
+					try {
+						const response = await fetch(`${API_URL}/chatbot`, {
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+								Authorization: token,
+							},
+							body: JSON.stringify({
+								message,
+								context: conversationContext,
+							}),
+						});
+						const data = await response.json();
+						addChatMessage("Assistant", data.response);
+						conversationContext = data.context;
+
+						// Handle any actions or suggestions
+						if (data.actions) {
+							handleChatbotActions(data.actions);
+						}
+					} catch (error) {
+						console.error("Error sending message:", error);
+						addChatMessage(
+							"Assistant",
+							"Sorry, I encountered an error. Please try again."
+						);
+					}
+				}
+			}
+
+			function handleChatbotActions(actions) {
+				// Implement action handling logic here
+				console.log("Actions to handle:", actions);
+				// You can add specific logic for each action type
+				// For example, if an action is 'prepare_document', you could open a document preparation form
+			}
+
+			// Check if user is already logged in
+			if (token) {
+				console.log("Token found, attempting to verify...");
+				fetch(`${API_URL}/agents/me`, {
+					headers: { Authorization: token },
+				})
+					.then((response) => {
+						console.log("Response status:", response.status);
+						if (!response.ok) {
+							throw new Error(
+								`HTTP error! status: ${response.status}`
+							);
+						}
+						return response.json();
+					})
+					.then((data) => {
+						console.log("Response data:", data);
+						if (data && data.name) {
+							console.log("Agent name received:", data.name);
+							document.getElementById("agentName").textContent =
+								data.name;
+							showMainContent();
+							showSection("dashboard");
+							logElementVisibility(); // Add this line to log the visibility of all elements
+						} else {
+							console.log(
+								"Invalid data received, showing login form"
+							);
+							throw new Error("Invalid data received");
+						}
+					})
+					.catch((error) => {
+						console.error("Error verifying token:", error);
+						localStorage.removeItem("token");
+						showLoginForm();
+					});
+			} else {
+				console.log("No token found, showing login form");
+				showLoginForm();
+			}
+
+			function showMainContent() {
+				console.log("Showing main content");
+				const loginForm = document.getElementById("loginForm");
+				const mainContent = document.getElementById("mainContent");
+				const userInfo = document.getElementById("userInfo");
+
+				if (loginForm && mainContent && userInfo) {
+					loginForm.style.display = "none";
+					mainContent.style.display = "block";
+					userInfo.style.display = "block";
+					console.log("Main content visibility updated");
+				} else {
+					console.error("One or more elements not found:", {
+						loginForm,
+						mainContent,
+						userInfo,
+					});
+				}
+			}
+
+			function showSection(sectionId) {
+				console.log("Showing section:", sectionId);
+				const sections = [
+					"dashboard",
+					"properties",
+					"clients",
+					"chatbot",
+				];
+				sections.forEach((id) => {
+					const element = document.getElementById(id);
+					if (element) {
+						if (id === sectionId) {
+							element.style.display = "block";
+							console.log(`Section ${id} is now visible`);
+						} else {
+							element.style.display = "none";
+							console.log(`Section ${id} is now hidden`);
+						}
+					} else {
+						console.error(`Section element not found: ${id}`);
+					}
+				});
+
+				if (sectionId !== "dashboard" && sectionId !== "chatbot") {
+					fetchData(sectionId);
+				}
+			}
+
+			// Add this function to check the visibility of all main elements
+			function logElementVisibility() {
+				const elements = [
+					"loginForm",
+					"mainContent",
+					"userInfo",
+					"dashboard",
+					"properties",
+					"clients",
+					"chatbot",
+				];
+				elements.forEach((id) => {
+					const element = document.getElementById(id);
+					if (element) {
+						console.log(
+							`${id} display:`,
+							window.getComputedStyle(element).display
+						);
+					} else {
+						console.error(`Element not found: ${id}`);
+					}
+				});
+			}
+
+			// Event listeners
+			document
+				.getElementById("chatInput")
+				.addEventListener("keypress", function (e) {
+					if (e.key === "Enter") {
+						sendChatMessage();
+					}
+				});
+		</script>
+	</body>
+</html>
