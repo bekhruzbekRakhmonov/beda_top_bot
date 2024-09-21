@@ -269,12 +269,12 @@ def handle_chatbot(current_agent):
     context = data.get('context', {})
 
     # Save user message
-    save_message(current_agent.id, user_message, 'agent')
+    add_message(current_agent.id, user_message, 'agent')
 
     response, actions = generate_response(user_message, context, current_agent)
 
     # Save assistant response
-    save_message(current_agent.id, response, 'assistant')
+    add_message(current_agent.id, response, 'assistant')
 
     context['last_intent'] = get_intent(user_message)
     context['last_message'] = user_message
@@ -286,7 +286,7 @@ def handle_chatbot(current_agent):
     })
 
 
-def save_message(agent_id, content, sender):
+def add_message(agent_id, content, sender):
     new_message = Message(
         agent_id=agent_id,
         content=content,
