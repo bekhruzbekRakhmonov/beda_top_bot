@@ -60,6 +60,7 @@ class Agent(Base):
     last_activity = Column(DateTime, default=datetime.utcnow)
     clients = relationship("Client", back_populates="agent")
     properties = relationship("Property", back_populates="agent")
+    messages = relationship("Message", back_populates="agent")
 
 
 class Property(Base):
@@ -98,7 +99,6 @@ class Message(Base):
 
 # Add this to the Agent model
 messages = relationship("Message", back_populates="agent")
-
 
 Base.metadata.create_all(engine)
 
