@@ -211,7 +211,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     referral_link = f"https://t.me/{context.bot.username}?start={user_id}"
     await update.message.reply_text(
-        f'Xush kelibsiz! Sizda {credits} ta kredit bor. O\'zbekistondagi kvartiralar haqida so\'rovingizni yuboring.\n\n'
+        f'Xush kelibsiz! Sizda {credits} ta kredit bor. O\'zbekistonda uy-joy qidirish uchun so\'rovingizni yuboring.\n\n'
         f'Ko\'proq kredit olish uchun ushbu havolani ulashing: {referral_link}'
     )
 
