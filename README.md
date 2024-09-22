@@ -94,8 +94,8 @@ Both components leverage advanced technologies such as AI-powered text generatio
 
 1. Clone the repository:
    ```
-   git clone https://github.com/your-repo/beda_top_real_estate.git
-   cd beda_top_real_estate
+   git clone https://github.com/bekhruzbekRakhmonov/beda_top_bot.git
+   cd beda_top_bot
    ```
 
 2. Install required dependencies:
