@@ -6,6 +6,23 @@
 
 Beda Top Agent helps real estate agents with user onboarding, document preparation, market analysis, and client analysis, trained on agency data for personalized assistance. [Learn more about Beda Top Agent portal](https://agent-bot-front.vercel.app/)
 
+Try our MVP/Demo versions:
+- Beda Top (Telegram Bot): [https://t.me/beda_top_bot](https://t.me/beda_top_bot)
+- Beda Top For Agents: [https://agent-bot-front.vercel.app/](https://agent-bot-front.vercel.app/)
+
+[Learn more about Beda Top Agent portal](https://agent-bot-front.vercel.app/)
+
+---
+
+## Test Credentials
+
+To quickly explore the Beda Top Agent portal, you can use the following test credentials:
+
+- **Email:** test@mail.com
+- **Password:** test
+
+Please note that this is a test account with limited functionality. For full access, please contact our support team to set up your own account.
+
 ---
 
 ## Showcase
@@ -20,19 +37,6 @@ Here's a glimpse of the Beda Top system in action:
 
 ![Beda Top Chatbot](https://agent-bot-front.vercel.app/product1.png)
 *Beda Top AI Chatbot - Get instant assistance and property recommendations*
-
----
-
-## Test Credentials
-
-To quickly explore the Beda Top Agent portal, you can use the following test credentials:
-
-- **Email:** test@mail.com
-- **Password:** test
-
-Please note that this is a test account with limited functionality. For full access, please contact our support team to set up your own account.
-
----
 
 ## Table of Contents
 1. [Overview](#overview)
