@@ -73,7 +73,7 @@ Both components leverage advanced technologies such as AI-powered text generatio
 3. **Google Generative AI**: Utilizes Google's Gemini API for natural language processing tasks.
 4. **NLTK**: For natural language processing and intent classification.
 5. **JWT**: For secure user authentication in the web application.
-6. **React Frontend**: User interface for the web application (not included in this repository).
+6. **Frontend**: User interface for the web application (not included in this repository).
 7. **TelegramBot**: Main interface for user interactions via Telegram.
 8. **QdrantClient**: Vector database for efficient property searching.
 9. **SentenceTransformer**: Converts text descriptions into vector representations.
