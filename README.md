@@ -10,10 +10,6 @@ Try our MVP/Demo versions:
 - Beda Top (Telegram Bot): [https://t.me/beda_top_bot](https://t.me/beda_top_bot)
 - Beda Top For Agents: [https://agent-bot-front.vercel.app/](https://agent-bot-front.vercel.app/)
 
-[Learn more about Beda Top Agent portal](https://agent-bot-front.vercel.app/)
-
----
-
 ## Test Credentials
 
 To quickly explore the Beda Top Agent portal, you can use the following test credentials:
@@ -22,8 +18,6 @@ To quickly explore the Beda Top Agent portal, you can use the following test cre
 - **Password:** test
 
 Please note that this is a test account with limited functionality. For full access, please contact our support team to set up your own account.
-
----
 
 ## Showcase
 
