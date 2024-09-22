@@ -140,12 +140,13 @@
 					>
 						Clients
 					</button>
-					<button
+					<a href="/chatbot.html">
+						<button
 						class="flex-1 py-2 px-4 text-center text-blue-600 font-semibold hover:bg-blue-100 transition duration-300 rounded-r-lg"
-						onclick="showSection('chatbot')"
 					>
 						Chatbot
 					</button>
+					</a>
 				</div>
 
 				<div
@@ -288,7 +289,7 @@
 		</div>
 
 		<script>
-			const API_URL = "http://localhost:5000/api";
+			const API_URL = "https://bedatopbot-production.up.railway.app/api";
 			let token = localStorage.getItem("token");
 			let conversationContext = {};
 

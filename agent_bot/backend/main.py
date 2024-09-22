@@ -150,6 +150,8 @@ def token_required(f):
     return decorated
 
 # Chatbot helper functions
+
+
 def generate_response(message, context, agent):
     intent = get_intent(message)
     model = genai.GenerativeModel('gemini-pro')
@@ -205,6 +207,8 @@ def generate_response(message, context, agent):
     return response.text, actions
 
 # API Routes
+
+
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.json
